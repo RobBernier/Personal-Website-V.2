@@ -17,6 +17,11 @@
     width: calc(100% - 50px);
   }
 
+  &__center {
+    text-align: center;
+    max-width: 650px;
+  }
+
   &__title {
     margin-top: 0;
   }
@@ -30,6 +35,10 @@
     height: 100%;
     transition: all #{$delay} ease 0s;
     z-index: 1;
+
+    &--center {
+      justify-content: center;
+    }
   }
 
   &__left {

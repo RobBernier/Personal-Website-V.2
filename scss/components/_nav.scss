@@ -130,7 +130,8 @@
             width: 7px;
             height: 7px;
             border-radius: 100%;
-            background-color: $color-blue2;
+            background-color: $color-black;
+            border: 1px solid $color-white;
             transition: background-color calc(#{$delay} / 2);
 
             @media (min-width: $content-max) {
@@ -169,7 +170,8 @@
           width: 100%;
 
           &:after {
-            background-color: $color-blue;
+            background-color: $color-white;
+            border-color: $color-grey;
           }
 
           span {
@@ -198,7 +200,8 @@
       &.js-active {
         a {
           &:after {
-            background-color: $color-blue;
+            background-color: $color-white;
+            border: 1px solid $color-black;
           }
 
           span {

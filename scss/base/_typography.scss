@@ -101,11 +101,9 @@ p {
 
 .page__inner {
   ul {
+    margin-top: 1.6rem;
+    columns: 3;
     list-style: none;
-
-    @media (min-width: $break-medium) {
-      padding: 0 0 0 30px;
-    }
   }
 
 
@@ -118,28 +116,6 @@ p {
 
     @media (min-width: $break-large) {
       font-size: 18px;
-    }
-
-    &:last-of-type {
-      margin-bottom: 0;
-    }
-
-    &:before {
-      @media (min-width: $break-medium) {
-        content: '';
-        position: absolute;
-        top: 9px;
-        left: -16px;
-        background-color: $color-green2;
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-      }
-
-      @media (min-width: $break-large) {
-        top: 10px;
-        left: -16px;
-      }
     }
   }
 }

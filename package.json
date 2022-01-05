@@ -1,29 +1,36 @@
 {
-  "name": "personal-website-v2",
+  "name": "personal-website-v.2",
   "version": "1.0.0",
-  "description": "Newest version of personal website",
-  "main": "index.php",
+  "description": "",
+  "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobBernier/Personal-Website-V.2.git"
+  },
+  "author": "robert bernier",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
-    "browser-sync": "latest",
-    "gulp": "latest",
-    "gulp-autoprefixer": "latest",
-    "gulp-babel": "^8.0.0",
-    "gulp-concat": "latest",
-    "gulp-notify": "latest",
-    "gulp-plumber": "latest",
-    "gulp-rename": "latest",
-    "gulp-sass": "latest",
-    "gulp-sourcemaps": "latest",
-    "gulp-uglify": "latest",
-    "hoek": "latest",
-    "lodash": "latest",
-    "cryptiles": ">=4.1.2"
+  "bugs": {
+    "url": "https://github.com/RobBernier/Personal-Website-V.2/issues"
+  },
+  "homepage": "https://github.com/RobBernier/Personal-Website-V.2#readme",
+  "dependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
+    "autoprefixer": "^9.0.0",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "gulp": "^4.0.2",
+    "gulp-notify": "^4.0.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^9.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "sass": "^1.45.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
   }
 }

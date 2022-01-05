@@ -1,79 +1,88 @@
-var gulp = require('gulp');
-var browserSync = require('browser-sync');
-var sass = require('gulp-sass');
-var prefix = require('gulp-autoprefixer');
-var sourcemaps = require('gulp-sourcemaps');
-var plumber = require('gulp-plumber');
-var notify = require('gulp-notify');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var babel = require('gulp-babel');
-var rename = require('gulp-rename');
-
-
-// gulp.task('browser-sync', function () {
-//     browserSync.init({
-//         server: {
-//             baseDir: "./"
-//         }
-//     });
-// });
+const gulp = require('gulp');
+const autoprefixer = require('autoprefixer');
+const notify = require('gulp-notify');
+const plumber = require('gulp-plumber');
+const sass = require('gulp-sass')(require('sass'));
+const sourcemaps = require('gulp-sourcemaps');
+const postcss = require('gulp-postcss');
+const babelify = require('babelify');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const rename = require('gulp-rename');
 
 // Title used for system notifications
-var notifyInfo = {
-    title: 'Gulp'
+const notifyInfo = {
+  title: 'Gulp',
 };
 
 // Error notification settings for plumber
-var plumberErrorHandler = {
-    errorHandler: notify.onError({
-        title: notifyInfo.title,
-        icon: notifyInfo.icon,
-        message: 'Error: <%= error.message %>'
-    })
+const plumberErrorHandler = {
+  errorHandler: notify.onError({
+    title: notifyInfo.title,
+    icon: notifyInfo.icon,
+    message: 'Error: <%= error.message %>',
+  }),
 };
 
-gulp.task('html', function () {
-    gulp.src('keyscreens/*.html')
-        .pipe(gulp.dest('./_dist'));
-});
+// CSS development task
+function css() {
+  return gulp
+    .src('./scss/main.scss', { sourcemaps: true })
+    .pipe(plumber(plumberErrorHandler))
+    .pipe(sourcemaps.init())
+    .pipe(sass({ outputStyle: 'expanded' }))
+    .pipe(
+      postcss([
+        autoprefixer({
+          overrideBrowserslist: [
+            '> 1%',
+            'last 3 versions',
+            'Firefox >= 20',
+            'iOS >=7',
+          ],
+          grid: 'autoplace',
+        }),
+      ]),
+    )
+    .pipe(sourcemaps.write('./maps'))
+    .pipe(gulp.dest('./_dist/css/'));
+}
 
-gulp.task('js', function () {
-    gulp.src('./js/main.js')
-        .pipe(babel({
-            "presets": ["@babel/preset-env"]
-        }))
-        .pipe(rename('main.min.js'))
-        .pipe(gulp.dest('./js'));
-});
+function js() {
+  const b = browserify({
+    entries: './js/main.js',
+    debug: true,
+    transform: [
+      babelify.configure({
+        presets: ['@babel/preset-env'],
+      }),
+    ],
+  });
 
-gulp.task('vue', function () {
-    return gulp.src('./vueComponents/*.js')
-    .pipe(babel({
-        "presets": ["@babel/preset-env"]
-    }))
-    .pipe(gulp.dest('vueCompiled'));
-});
+  return b
+    .bundle()
+    .pipe(source('./js/main.js'))
+    .pipe(plumber())
+    .pipe(buffer())
+    .pipe(rename({ dirname: '' }))
+    .pipe(gulp.dest('./_dist/js/'));
+}
 
-gulp.task('sass', function () {
-    return gulp.src('scss/**/*.scss')
-        .pipe(plumber(plumberErrorHandler))
-        .pipe(sourcemaps.init())
-        .pipe(sass())
-        .pipe(prefix({
-            browsers: ['> 1%', 'last 3 versions', 'Firefox >= 20', 'iOS >=7']
-        }))
-        .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest('./css'))
-        // .pipe(browserSync.stream());
-});
+// Watch files
+function watchFiles() {
+  gulp.watch('./scss/**/*', css);
+  gulp.watch(
+    ['./js/**/*.js'],
+    js,
+  );
+}
 
-gulp.task('watch', function () {
-    gulp.watch("./scss/**/*.scss", ['sass']);
-    gulp.watch("keyscreens/*.html", ['html']);
-    gulp.watch("js/*.js", ['js']);
-    gulp.watch("./vueComponents/*.js", ['vue']);
-    // gulp.watch("keyscreens/*.html").on('change', browserSync.reload);
-});
+// Watch files during development
+const watch = gulp.parallel(watchFiles);
 
-gulp.task('default', ['sass', 'html', 'js', /*'browser-sync',*/ 'watch']);
+// Export tasks
+exports.css = css;
+exports.js = js;
+exports.watch = watch;
+exports.default = watch;

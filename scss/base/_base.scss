@@ -13,7 +13,7 @@ form label {
   position: relative;
   text-decoration: none;
   font-weight: 700;
-  color: $color-green2;
+  color: $color-black;
   transition: all $delay ease;
 
   &:after {
@@ -23,16 +23,16 @@ form label {
     bottom: -5px;
     width: 0;
     height: 3px;
-    background-color: $color-green2;
+    background-color: $color-black;
     transition: all $delay ease;
   }
 
   &:hover {
-    color: $color-green;
+    color: $color-black;
 
     &:after {
       width: 100%;
-      background-color: $color-green;
+      background-color: $color-black;
     }
   }
 }
