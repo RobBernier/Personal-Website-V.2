@@ -41,7 +41,7 @@ new Vue({
             <h2 class='page__title'>Work</h2>
             <p>I have worked on websites for web agencies, higher education, and the U.S. Army.</p>
             <p>I love developing compelling user experiences, from static websites to dynamic application focussed content.</p>
-            <p>You can view my work history on my <a href='https://robbernier.com/resume/'>resume</a>, built with HTML and CSS and review past projects on my <a href='https://github.com/RobBernier'>GitHub</a> page.</p>
+            <p>You can view my work history on my <a href='https://robbernier.com/resume/' target='_blank'>resume</a>, built with HTML and CSS and review past projects on my <a href='https://github.com/RobBernier' target='_blank'>GitHub</a> page.</p>
           </div>
         </div>
       </div>
