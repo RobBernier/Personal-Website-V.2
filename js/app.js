@@ -40,8 +40,8 @@ new Vue({
           <div class='page__center'>
             <h2 class='page__title'>Work</h2>
             <p>I have worked on websites for web agencies, higher education, and the U.S. Army.</p>
-            <p>I love developing compelling user experiences, from static websites to dynamic application focussed content.</p>
-            <p>You can view my work history on my <a href='https://robbernier.com/resume/' target='_blank'>resume</a>, built with HTML and CSS and review past projects on my <a href='https://github.com/RobBernier' target='_blank'>GitHub</a> page.</p>
+            <p>I love developing compelling user experiences, from static websites to dynamic applications.</p>
+            <p>You can view my <a href='https://robbernier.com/resume/' target='_blank'>resume</a> (built with HTML and CSS) and view past projects on my <a href='https://github.com/RobBernier' target='_blank'>GitHub</a> page.</p>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@ new Vue({
       <div class='page__inner page__inner--center'>
         <div class='page__center'>
           <h2 class='page__title'>Skills</h2>
-          <p>Over my five years of professional development, I've become familiar with the following skills and tools</p>
+          <p>Over my five years of professional development, I've become familiar with the following skills and tools:</p>
           
           <ul>
             <li>HTML and CSS</li>
@@ -63,6 +63,9 @@ new Vue({
             <li>Drupal CMS</li>
             <li>Gulp</li>
           </ul>
+
+          <p>There are many more as well. Have another technology in mind?</p>
+          <p><a href="#" @click='changePage($event, 3)'>Contact Me</a></p>
         </div>
       </div>
     </div>
@@ -87,22 +90,22 @@ new Vue({
       </button>
       <ul class='nav__list'>
         <li class='nav__item js-active'>
-          <a href='#' @click='changePage'>
+          <a href='#' @click='changePage($event, 0)'>
             <span>About</span>
           </a>
         </li>
         <li class='nav__item'>
-          <a href='#' @click='changePage'>
+          <a href='#' @click='changePage($event, 1)'>
             <span>Work</span>
           </a>
         </li>
         <li class='nav__item'>
-          <a href='#' @click='changePage'>
+          <a href='#' @click='changePage($event, 2)'>
             <span>Skills</span>
           </a>
         </li>
         <li class='nav__item'>
-          <a href='#' @click='changePage'>
+          <a href='#' @click='changePage($event, 3)'>
             <span>Contact</span>
           </a>
         </li>
@@ -135,18 +138,17 @@ new Vue({
   },
 
   methods: {
-    changePage: function (e) {
+    changePage: function (e, $targetIndex) {
       e.stopPropagation();
       e.preventDefault();
 
       const $this = this;
-      const $targetIndex = $(e.target).parent().index();
       const $navIndex = $('.nav__item.js-active').index();
 
       const $originalPage = $('.page').eq($navIndex);
       const $nextPage = $('.page').eq($targetIndex);
 
-      if (!$(e.target).parent().hasClass('js-active') && this.animating == false) {
+      if (!$('.nav__item > a').eq($targetIndex).parent().hasClass('js-active') && this.animating == false) {
         this.animating = true;
 
         // Close menu on mobile
@@ -168,14 +170,14 @@ new Vue({
         setTimeout(function () {
           $originalPage.removeClass('js-up js-down');
           $nextPage.removeClass('js-up js-down').addClass('js-active');
-          $(e.target).parent().addClass('js-active');
+          $('.nav__item > a').eq($targetIndex).parent().addClass('js-active');
           $this.animating = false;
         }, this.speed);
-      } else if ($(e.target).parent().hasClass('js-active')) {
-        $(e.target).parent().addClass('shake-little');
+      } else if ($('.nav__item > a').eq($targetIndex).parent().hasClass('js-active')) {
+        $('.nav__item > a').eq($targetIndex).parent().addClass('shake-little');
 
         setTimeout(function () {
-          $(e.target).parent().removeClass('shake-little');
+          $('.nav__item > a').eq($targetIndex).parent().removeClass('shake-little');
         }, this.speed / 2);
       }
 
