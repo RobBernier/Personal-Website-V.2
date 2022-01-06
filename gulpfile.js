@@ -46,7 +46,7 @@ function css() {
       ]),
     )
     .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest('./_dist/css/'));
+    .pipe(gulp.dest('./info/css/'));
 }
 
 function js() {
@@ -66,7 +66,7 @@ function js() {
     .pipe(plumber())
     .pipe(buffer())
     .pipe(rename({ dirname: '' }))
-    .pipe(gulp.dest('./_dist/js/'));
+    .pipe(gulp.dest('./info/js/'));
 }
 
 // Watch files

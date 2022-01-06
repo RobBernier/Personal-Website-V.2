@@ -20,9 +20,9 @@ new Vue({
           <div class='page__left'>
             <div class='bio__img'>
               <picture>
-                <source srcset="./img/bio-pic.png" media="(min-width: 1024px)" />
-                <source srcset="./img/bio-pic.png" media="(min-width: 700px)" />
-                <img srcset="./img/bio-pic.png" alt="Sample pic" />
+                <source srcset="./info/img/bio-pic.png" media="(min-width: 1024px)" />
+                <source srcset="./info/img/bio-pic.png" media="(min-width: 700px)" />
+                <img srcset="./info/img/bio-pic.png" alt="Sample pic" />
               </picture>
             </div>
           </div>
