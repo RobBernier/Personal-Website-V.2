@@ -1,9 +1,10 @@
-import Vue from './vendor/vue.js';
-import $ from './vendor/jquery.js';
+import Vue from './vendor/vue.min.js';
 
-new Vue({
-  el: '#app',
-  template: `
+const vueApp = (() => {
+  const initialize = () => {
+    new Vue({
+      el: '#app',
+      template: `
 <div class='app'>
   <div class='splash'>
     <div class='splash__inner'>
@@ -29,7 +30,7 @@ new Vue({
           <div class='page__right'>
             <h2 class='page__title'>Hi there!</h2>
             <div class='bio__desc'>
-              <p>I'm Rob. I'm a web developer with 5 years of professional experience developing websites.</p>
+              <p>I'm Rob. I'm a frontend developer with 5 years of professional experience developing websites.</p>
             </div>
           </div>
         </div>
@@ -114,82 +115,90 @@ new Vue({
   </div>
 </div>
 `,
-  data: {
-    speed: 800,
-    animating: false,
-  },
+      data: {
+        speed: 800,
+        animating: false,
+      },
 
-  mounted: function () {
-    const $delay = this.speed;
+      mounted: function () {
+        const $delay = this.speed;
 
-    // Splash screen animation on page ready
-    $(document).ready(function () {
-      $('.splash').addClass('js-loaded');
+        // Splash screen animation on page ready
+        $(document).ready(function () {
+          $('.splash').addClass('js-loaded');
 
-      setTimeout(() => {
-        $('.splash').addClass('js-hide');
-      }, Math.ceil($delay) * 2);
+          setTimeout(() => {
+            $('.splash').addClass('js-hide');
+          }, Math.ceil($delay) * 2);
 
-      setTimeout(() => {
-        $('.bio').addClass('js-active');
-        $('.main-nav').addClass('js-visible');
-      }, Math.ceil($delay) * 2.5);
-    })
-  },
+          setTimeout(() => {
+            $('.bio').addClass('js-active');
+            $('.main-nav').addClass('js-visible');
+          }, Math.ceil($delay) * 2.5);
+        })
+      },
 
-  methods: {
-    changePage: function (e, $targetIndex) {
-      e.stopPropagation();
-      e.preventDefault();
+      methods: {
+        changePage: function (e, $targetIndex) {
+          e.stopPropagation();
+          e.preventDefault();
 
-      const $this = this;
-      const $navIndex = $('.nav__item.js-active').index();
+          const $this = this;
+          const $navIndex = $('.nav__item.js-active').index();
 
-      const $originalPage = $('.page').eq($navIndex);
-      const $nextPage = $('.page').eq($targetIndex);
+          const $originalPage = $('.page').eq($navIndex);
+          const $nextPage = $('.page').eq($targetIndex);
 
-      if (!$('.nav__item > a').eq($targetIndex).parent().hasClass('js-active') && this.animating == false) {
-        this.animating = true;
+          if (!$('.nav__item > a').eq($targetIndex).parent().hasClass('js-active') && this.animating == false) {
+            this.animating = true;
 
-        // Close menu on mobile
-        $('.nav__button').removeClass('js-active');
-        $('.nav__list').removeClass('js-open');
+            // Close menu on mobile
+            $('.nav__button').removeClass('js-active');
+            $('.nav__list').removeClass('js-open');
 
-        if ($targetIndex > $navIndex) {
-          // Move current slide out of view
-          $originalPage.addClass('js-up').removeClass('js-active');
-          $nextPage.addClass('js-down');
-        } else {
-          $originalPage.addClass('js-down').removeClass('js-active');
-          $nextPage.addClass('js-up');
+            if ($targetIndex > $navIndex) {
+              // Move current slide out of view
+              $originalPage.addClass('js-up').removeClass('js-active');
+              $nextPage.addClass('js-down');
+            } else {
+              $originalPage.addClass('js-down').removeClass('js-active');
+              $nextPage.addClass('js-up');
+            }
+
+            // Remove nav active state
+            $('.nav__item').removeClass('js-active');
+
+            setTimeout(function () {
+              $originalPage.removeClass('js-up js-down');
+              $nextPage.removeClass('js-up js-down').addClass('js-active');
+              $('.nav__item > a').eq($targetIndex).parent().addClass('js-active');
+              $this.animating = false;
+            }, this.speed);
+          } else if ($('.nav__item > a').eq($targetIndex).parent().hasClass('js-active')) {
+            $('.nav__item > a').eq($targetIndex).parent().addClass('shake-little');
+
+            setTimeout(function () {
+              $('.nav__item > a').eq($targetIndex).parent().removeClass('shake-little');
+            }, this.speed / 2);
+          }
+
+          return false;
+        },
+
+        openMenu: function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          $(e.target).toggleClass('js-active');
+          $('.nav__list').toggleClass('js-open');
         }
-
-        // Remove nav active state
-        $('.nav__item').removeClass('js-active');
-
-        setTimeout(function () {
-          $originalPage.removeClass('js-up js-down');
-          $nextPage.removeClass('js-up js-down').addClass('js-active');
-          $('.nav__item > a').eq($targetIndex).parent().addClass('js-active');
-          $this.animating = false;
-        }, this.speed);
-      } else if ($('.nav__item > a').eq($targetIndex).parent().hasClass('js-active')) {
-        $('.nav__item > a').eq($targetIndex).parent().addClass('shake-little');
-
-        setTimeout(function () {
-          $('.nav__item > a').eq($targetIndex).parent().removeClass('shake-little');
-        }, this.speed / 2);
       }
-
-      return false;
-    },
-
-    openMenu: function (e) {
-      e.stopPropagation();
-      e.preventDefault();
-
-      $(e.target).toggleClass('js-active');
-      $('.nav__list').toggleClass('js-open');
-    }
+    });
   }
-});
+
+  return {
+    initialize,
+  };
+})();
+
+export default vueApp;

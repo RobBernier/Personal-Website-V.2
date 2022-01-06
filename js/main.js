@@ -1,2 +1,11 @@
 import './vendor/objectFitPolyfill.min.js';
-import './app.js';
+
+import vueApp from './app.js';
+
+window.$ = require('jquery');
+window.jQuery = require('jquery');
+
+
+$(() => {
+  vueApp.initialize();
+});
